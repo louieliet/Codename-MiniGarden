@@ -14,10 +14,10 @@ public class PlantingService : IPlantSystem
         if (gridManager.PlantAtPosition(position))
         {
             Vector3 plantPosition = gridManager.GetWorldPosition(
-                Mathf.FloorToInt(position.x / gridManager.cellSize),
-                Mathf.FloorToInt(position.y / gridManager.cellSize),
-                Mathf.FloorToInt(position.z / gridManager.cellSize)
-            );
+                Mathf.FloorToInt((position.x / gridManager.cellSize)),
+                Mathf.FloorToInt((position.y / gridManager.cellSize)),
+                Mathf.FloorToInt((position.z / gridManager.cellSize))
+            ) + new Vector3(gridManager.cellSize / 2, 0, gridManager.cellSize / 2);
 
             Object.Instantiate(plantPrefab, plantPosition, Quaternion.identity);
             Debug.Log("Planta colocada en " + plantPosition);
