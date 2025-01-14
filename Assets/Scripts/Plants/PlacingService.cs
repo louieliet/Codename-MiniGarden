@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class PlantingService : IPlantSystem
+public class PlacingService : IPlaceSystem
 {
     private GridManager gridManager;
 
-    public PlantingService(GridManager gridManager)
+    public PlacingService(GridManager gridManager)
     {
         this.gridManager = gridManager;
     }
 
-    public bool Plant(Vector3 position, GameObject plantPrefab)
+    public bool Place(Vector3 position, GameObject plantPrefab)
     {
         if (gridManager.PlantAtPosition(position) && plantPrefab.GetComponent<PlantGrowth>() != null)
         {
@@ -20,12 +20,12 @@ public class PlantingService : IPlantSystem
             ) + new Vector3(gridManager.cellSize / 2, 0, gridManager.cellSize / 2);
 
             Object.Instantiate(plantPrefab, plantPosition, Quaternion.identity);
-            Debug.Log("Planta colocada en " + plantPosition);
+            Debug.Log("Objeto colocada en " + plantPosition);
             return true;
         }
         else
         {
-            Debug.Log("No se pudo plantar, la celda ya está ocupada.");
+            Debug.Log("No se pudo colocar el objeto, la celda ya está ocupada.");
         }
 
         return false;

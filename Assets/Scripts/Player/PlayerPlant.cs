@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerPlant : MonoBehaviour
+public class PlayerPlace : MonoBehaviour
 {
     public GameObject plantPrefab;
 
-    private IPlantSystem plantSystem;
+    private IPlaceSystem placeSystem;
 
     private void Start()
     {
@@ -16,7 +16,7 @@ public class PlayerPlant : MonoBehaviour
             return;
         }
 
-        plantSystem = new PlantingService(gridManager);
+        placeSystem = new PlacingService(gridManager);
     }
 
     public void OnPlant(InputAction.CallbackContext context)
@@ -24,24 +24,24 @@ public class PlayerPlant : MonoBehaviour
         if (context.phase != InputActionPhase.Performed)
             return;
 
-        if (plantSystem != null)
+        if (placeSystem != null)
         {
-            Debug.Log("Intentando plantar...");
+            Debug.Log("Intentando colocar el objeto...");
             Vector3 playerPosition = transform.position;
             Debug.Log($"Posición del jugador: {playerPosition}");
 
-            if (plantSystem.Plant(playerPosition, plantPrefab))
+            if (placeSystem.Place(playerPosition, plantPrefab))
             {
-                Debug.Log("Planta colocada con éxito.");
+                Debug.Log("Objeto colocada con éxito.");
             }
             else
             {
-                Debug.Log("No se pudo plantar.");
+                Debug.Log("No se pudo colocar el objeto.");
             }
         }
         else
         {
-            Debug.LogError("El sistema de plantación no está configurado.");
+            Debug.LogError("El sistema de colocación no está configurado.");
         }
     }
 
