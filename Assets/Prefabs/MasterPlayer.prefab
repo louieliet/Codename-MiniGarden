@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 159382457430854304}
   - component: {fileID: 1186514464671175196}
   - component: {fileID: 3530652593365115942}
+  - component: {fileID: 4129566870260323834}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -485,7 +486,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc564de493bba44092eea79f962ae1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefab: {fileID: 2906742830765859135, guid: 78da2ace1ab76ce478600ebe37fa10fe, type: 3}
+  inventoryUIManager: {fileID: 0}
+  plantPrefab: {fileID: 6372616058798494966, guid: 81b2976db2c91d745bbdf221c166973e, type: 3}
+--- !u!114 &4129566870260323834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333336152430273067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deec4d061313cf14b80dbf98b5753e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  inventoryUIManager: {fileID: 0}
+  currentMud: {fileID: 0}
 --- !u!1 &8299956644588538545
 GameObject:
   m_ObjectHideFlags: 0

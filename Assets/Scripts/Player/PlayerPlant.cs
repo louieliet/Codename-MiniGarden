@@ -4,7 +4,6 @@ using UnityEngine.Events;
 
 public class PlayerPlant : MonoBehaviour
 {
-    public GameManager gameManager;
     public InventoryUIManager inventoryUIManager;
     [HideInInspector] public MudInteraction currentMud;
 
@@ -21,8 +20,9 @@ public class PlayerPlant : MonoBehaviour
         }
 
         Item selectedItem = selectedSlot.item;
+        int selectedQuantity = selectedSlot.quantity;
 
-        if (selectedItem.itemType != ItemType.Plant || currentMud == null) return;
+        if (selectedItem.itemType != ItemType.Plant || selectedQuantity <= 0 || currentMud == null) return;
 
         currentMud.Plant(selectedItem);
         inventoryUIManager.playerInventory.RemoveItem(selectedItem, 1);

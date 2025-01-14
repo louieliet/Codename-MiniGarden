@@ -48,15 +48,12 @@ public class InventoryUIManager : MonoBehaviour
                 GameObject newSlot = Instantiate(inventorySlotPrefab, inventoryGrid);
                 slots.Add(newSlot);
 
-                // Configura la imagen del ítem
                 Image icon = newSlot.transform.GetComponent<Image>();
                 icon.sprite = slot.item.icon;
 
-                // Configura el nombre del ítem
                 TMP_Text name = newSlot.transform.GetChild(0).GetComponent<TMP_Text>();
                 name.text = slot.quantity.ToString();
 
-                // Configura el botón
                 Button button = newSlot.GetComponent<Button>();
                 button.onClick.AddListener(() => OnSlotClicked(slot));
             }

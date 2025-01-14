@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 public class PlayerPlace : MonoBehaviour
 {
     public InventoryUIManager inventoryUIManager;
-    public GameObject plantPrefab;
     private IPlaceSystem placeSystem;
 
     private void Start()
@@ -29,7 +28,7 @@ public class PlayerPlace : MonoBehaviour
         placeSystem = new PlacingService(gridManager);
     }
 
-    public void OnPlant(InputAction.CallbackContext context)
+    public void OnPlace(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Performed)
             return;
@@ -49,13 +48,15 @@ public class PlayerPlace : MonoBehaviour
             return;
         }
 
-        if (placeSystem != null && plantPrefab != null)
+        GameObject objectToPlace = selectedItem.prefab;
+
+        if (placeSystem != null && objectToPlace != null)
         {
             Debug.Log("Intentando colocar el objeto...");
             Vector3 playerPosition = transform.position;
             Debug.Log($"Posición del jugador: {playerPosition}");
 
-            if (placeSystem.Place(playerPosition, plantPrefab))
+            if (placeSystem.Place(playerPosition, objectToPlace))
             {
                 Debug.Log("Objeto colocado con éxito.");
             }
