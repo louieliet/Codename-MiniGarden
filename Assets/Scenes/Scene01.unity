@@ -578,13 +578,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1224597092}
+  - component: {fileID: 1224597097}
   - component: {fileID: 1224597091}
   - component: {fileID: 1224597090}
   - component: {fileID: 1224597089}
   - component: {fileID: 1224597096}
   - component: {fileID: 1224597094}
   - component: {fileID: 1224597093}
-  - component: {fileID: 1224597097}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -674,7 +674,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224597088}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.69, y: 0.53, z: 1.55}
   m_LocalScale: {x: 0.17481, y: 0.80974144, z: 0.22377}
   m_ConstrainProportionsScale: 0
@@ -708,6 +708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   gravity: -9.81
+  acceleration: 10
 --- !u!114 &1224597096
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,27 +8,30 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float gravity = -9.81f;
+    public float acceleration = 10f;
 
     private Rigidbody rb;
     private Vector3 velocity;
     private Vector2 inputMovement;
-    private bool isGrounded;
+    private Vector3 currentVelocity;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void Update()
     {
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f; // Pequeña fuerza hacia abajo para mantener al jugador pegado al suelo
-        }
-
         // Movimiento del personaje
         Vector3 move = new Vector3(inputMovement.x, 0, inputMovement.y);
         rb.MovePosition(rb.position + move * moveSpeed * Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        Vector3 targetVelocity = new Vector3(inputMovement.x, 0, inputMovement.y) * moveSpeed;
+        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
     }
 
     // Input del movimiento
