@@ -15,6 +15,7 @@ public class InventoryUIManager : MonoBehaviour
     private void Start()
     {
         // Desactiva el panel del inventario al inicio
+        inventoryPanel.SetActive(true);
         inventoryPanel.SetActive(false);
         UpdateInventoryUI();
     }

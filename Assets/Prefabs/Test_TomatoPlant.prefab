@@ -267,6 +267,7 @@ MonoBehaviour:
     harvestItem: {fileID: 11400000, guid: d7fddc5d7801f3248b46fc81077f3685, type: 2}
     harvestQuantity: 1
   growthPerPhase: {x: 1, y: 1, z: 1}
+  currentPhaseIndex: 0
   onHarvested:
     m_PersistentCalls:
       m_Calls: []
@@ -298,7 +299,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
