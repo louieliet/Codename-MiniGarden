@@ -11,7 +11,7 @@ public class PlantingService : IPlantSystem
 
     public bool Plant(Vector3 position, GameObject plantPrefab)
     {
-        if (gridManager.PlantAtPosition(position))
+        if (gridManager.PlantAtPosition(position) && plantPrefab.GetComponent<PlantGrowth>() != null)
         {
             Vector3 plantPosition = gridManager.GetWorldPosition(
                 Mathf.FloorToInt((position.x / gridManager.cellSize)),
