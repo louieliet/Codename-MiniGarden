@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 inputMovement;
     private Vector3 currentVelocity;
 
+    private bool isFrozen = false; // Added flag
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -23,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (isFrozen) return; // Check if frozen
         // Movimiento del personaje
         Vector3 move = new Vector3(inputMovement.x, 0, inputMovement.y);
         rb.MovePosition(rb.position + move * moveSpeed * Time.deltaTime);
@@ -30,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isFrozen) return; // Check if frozen
         Vector3 targetVelocity = new Vector3(inputMovement.x, 0, inputMovement.y) * moveSpeed;
         rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
     }
@@ -38,6 +42,12 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         inputMovement = context.ReadValue<Vector2>();
+    }
+
+    // Added methods to freeze and unfreeze movement
+    public void ToggleFreezeMovement()
+    {
+        isFrozen = !isFrozen;
     }
 
 }

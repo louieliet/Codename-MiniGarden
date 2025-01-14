@@ -14,6 +14,8 @@ public class InventoryUIManager : MonoBehaviour
 
     private void Start()
     {
+        // Desactiva el panel del inventario al inicio
+        inventoryPanel.SetActive(false);
         UpdateInventoryUI();
     }
 
@@ -49,7 +51,7 @@ public class InventoryUIManager : MonoBehaviour
 
                 // Configura el nombre del ítem
                 TMP_Text name = newSlot.transform.GetChild(0).GetComponent<TMP_Text>();
-                name.text = slot.item.itemName;
+                name.text = slot.quantity.ToString();
 
                 // Configura el botón
                 Button button = newSlot.GetComponent<Button>();
