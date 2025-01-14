@@ -1,18 +1,27 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 public class PlayerPlant : MonoBehaviour
 {
-    public InventoryUIManager inventoryUIManager;
+    public Inventory playerInventory;
     [HideInInspector] public MudInteraction currentMud;
+
+    private void Start()
+    {
+        if (playerInventory == null)
+        {
+            Debug.LogError("No se encontró Inventory en el jugador.");
+        }
+    }
 
     public void OnPlantAction(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Performed)
             return;
 
-        var selectedSlot = inventoryUIManager?.GetSelectedSlot();
+        var selectedSlot = playerInventory.selectedSlot;
         if (selectedSlot == null || selectedSlot.item == null)
         {
             Debug.LogWarning("No hay un ítem seleccionado para plantar.");
@@ -25,7 +34,7 @@ public class PlayerPlant : MonoBehaviour
         if (selectedItem.itemType != ItemType.Plant || selectedQuantity <= 0 || currentMud == null) return;
 
         currentMud.Plant(selectedItem);
-        inventoryUIManager.playerInventory.RemoveItem(selectedItem, 1);
+        playerInventory.RemoveItem(selectedItem, 1);
 
     }
 }

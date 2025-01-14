@@ -47,7 +47,7 @@ public class PlantGrowth : MonoBehaviour
 
     public bool TryHarvest(PlayerInventory playerInventory)
     {
-        if (currentPhaseIndex == growthPhases.Length)
+        if (isFullyGrown)
         {
             GrowthPhase currentPhase = growthPhases[currentPhaseIndex - 1];
             Debug.Log($"Fase actual: {currentPhase.phaseName}, CanBeHarvested: {currentPhase.canBeHarvested}, HarvestItem: {currentPhase.harvestItem}");

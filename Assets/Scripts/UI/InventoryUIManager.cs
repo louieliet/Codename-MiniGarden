@@ -63,31 +63,8 @@ public class InventoryUIManager : MonoBehaviour
 
     private void OnSlotClicked(Inventory.InventorySlot slot)
     {
-        activeSlot = slot;  // Almacenar el slot seleccionado como activo
+        playerInventory.selectedSlot = slot;
         Debug.Log($"Has seleccionado: {slot.item.itemName}");
-        // Aquí puedes realizar acciones adicionales al seleccionar el ítem
-    }
-
-    // Puedes crear métodos para usar el objeto activo más adelante
-    public void UsarObjetoActivo()
-    {
-        if (activeSlot != null)
-        {
-            // Implementar la lógica para usar el objeto activo
-            Debug.Log($"Usando el objeto: {activeSlot.item.itemName}");
-            // Por ejemplo, instanciar su prefab en el mundo:
-            // Instantiate(activeSlot.item.prefab, posiciónDeseada, rotaciónDeseada);
-        }
-        else
-        {
-            Debug.Log("No hay un objeto activo seleccionado.");
-        }
-    }
-
-    public Inventory.InventorySlot GetSelectedSlot()
-    {
-        // Retorna el slot activo almacenado cuando el jugador hizo clic en uno
-        return activeSlot;  // Asumiendo que almacenaste el slot activo como se explicó anteriormente
     }
 
 }

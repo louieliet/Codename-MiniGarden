@@ -3,26 +3,22 @@ using UnityEngine.InputSystem;
 
 public class PlayerPlace : MonoBehaviour
 {
-    public InventoryUIManager inventoryUIManager;
+    public Inventory playerInventory;
     private IPlaceSystem placeSystem;
 
     private void Start()
     {
         GridManager gridManager = FindObjectOfType<GridManager>();
+
         if (gridManager == null)
         {
             Debug.LogError("No se encontró GridManager en la escena.");
             return;
         }
 
-        if (inventoryUIManager == null)
+        if (playerInventory == null)
         {
-            inventoryUIManager = FindObjectOfType<InventoryUIManager>();
-            if (inventoryUIManager == null)
-            {
-                Debug.LogError("No se encontró InventoryUIManager en la escena.");
-                return;
-            }
+            Debug.LogError("No se encontró Inventory en el jugador.");
         }
 
         placeSystem = new PlacingService(gridManager);
@@ -33,7 +29,7 @@ public class PlayerPlace : MonoBehaviour
         if (context.phase != InputActionPhase.Performed)
             return;
 
-        var selectedSlot = inventoryUIManager?.GetSelectedSlot();
+        var selectedSlot = playerInventory.selectedSlot;
         if (selectedSlot == null || selectedSlot.item == null)
         {
             Debug.LogWarning("No hay un ítem seleccionado para colocar.");

@@ -13,6 +13,9 @@ public class Inventory : ScriptableObject
 
     public List<InventorySlot> slots = new List<InventorySlot>();
 
+    [System.NonSerialized]
+    public InventorySlot selectedSlot;
+
     /// <summary>
     /// Agregar un ítem al inventario.
     /// </summary>
