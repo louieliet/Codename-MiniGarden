@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum ItemType
+{
+    Tool,
+    Plant
+}
+
 [CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
 public class Item : ScriptableObject
 {
@@ -8,4 +14,5 @@ public class Item : ScriptableObject
     public GameObject prefab; // Prefab asociado al objeto
     public string description; // Descripción del objeto
     public int maxStackSize = 99; // Tamaño máximo de pila
+    public ItemType itemType; // Tipo de objeto
 }

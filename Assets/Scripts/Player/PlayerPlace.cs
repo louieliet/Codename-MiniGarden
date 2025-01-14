@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerPlace : MonoBehaviour
 {
+    public InventoryUIManager inventoryUIManager;
     public GameObject plantPrefab;
-
     private IPlaceSystem placeSystem;
 
     private void Start()
@@ -16,6 +16,16 @@ public class PlayerPlace : MonoBehaviour
             return;
         }
 
+        if (inventoryUIManager == null)
+        {
+            inventoryUIManager = FindObjectOfType<InventoryUIManager>();
+            if (inventoryUIManager == null)
+            {
+                Debug.LogError("No se encontró InventoryUIManager en la escena.");
+                return;
+            }
+        }
+
         placeSystem = new PlacingService(gridManager);
     }
 
@@ -24,7 +34,22 @@ public class PlayerPlace : MonoBehaviour
         if (context.phase != InputActionPhase.Performed)
             return;
 
-        if (placeSystem != null)
+        var selectedSlot = inventoryUIManager?.GetSelectedSlot();
+        if (selectedSlot == null || selectedSlot.item == null)
+        {
+            Debug.LogWarning("No hay un ítem seleccionado para colocar.");
+            return;
+        }
+
+        Item selectedItem = selectedSlot.item;
+
+        if (selectedItem.itemType != ItemType.Tool)
+        {
+            Debug.Log("El ítem seleccionado no es una herramienta para colocar barro.");
+            return;
+        }
+
+        if (placeSystem != null && plantPrefab != null)
         {
             Debug.Log("Intentando colocar el objeto...");
             Vector3 playerPosition = transform.position;
@@ -32,7 +57,7 @@ public class PlayerPlace : MonoBehaviour
 
             if (placeSystem.Place(playerPosition, plantPrefab))
             {
-                Debug.Log("Objeto colocada con éxito.");
+                Debug.Log("Objeto colocado con éxito.");
             }
             else
             {

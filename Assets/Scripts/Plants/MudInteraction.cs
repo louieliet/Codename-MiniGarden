@@ -47,7 +47,7 @@ public class MudInteraction : MonoBehaviour
 
     public void Plant(Item plantItem)
     {
-        if (plantItem != null && plantItem.prefab != null)
+        if (plantItem != null && plantItem.prefab != null && plantItem.prefab.GetComponent<PlantGrowth>() != null)
         {
             // Instancia el prefab de la planta en la posición del barro
             Instantiate(plantItem.prefab, transform.position, Quaternion.identity);

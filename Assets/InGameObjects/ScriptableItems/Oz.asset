@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff64e7ba3fd3d8a40a93a8e43e3a514f, type: 3}
-  m_Name: TomatoPlant
+  m_Name: Oz
   m_EditorClassIdentifier: 
-  itemName: TomatoPlant
-  icon: {fileID: 21300000, guid: b12a3bfd635bc044bb060434b0b66b48, type: 3}
-  prefab: {fileID: 6791427105434058726, guid: 111a2104daf33694f977636fec83f364, type: 3}
-  description: Tomato Plant to test
+  itemName: Oz
+  icon: {fileID: 21300000, guid: 3eef23e63aebdf64aba8838e87cc731d, type: 3}
+  prefab: {fileID: 0}
+  description: Una oz pa prepar la tierra pa
   maxStackSize: 99
+  itemType: 0
