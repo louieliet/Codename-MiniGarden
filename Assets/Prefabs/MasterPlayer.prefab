@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 1186514464671175196}
   - component: {fileID: 3530652593365115942}
   - component: {fileID: 4129566870260323834}
+  - component: {fileID: 6253367340554526870}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -380,9 +381,9 @@ MonoBehaviour:
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3530652593365115942}
-        m_TargetAssemblyTypeName: PlayerPlant, Assembly-CSharp
-        m_MethodName: OnPlant
+      - m_Target: {fileID: 6253367340554526870}
+        m_TargetAssemblyTypeName: PlayerInteractionHandler, Assembly-CSharp
+        m_MethodName: OnInteract
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -501,6 +502,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 11400000, guid: 340ff08395b6ed0489ac44f5f7a90937, type: 2}
   currentMud: {fileID: 0}
+--- !u!114 &6253367340554526870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7333336152430273067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4de50e2d1282aa4f954c6b92c93283d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  interactionRange: 3
 --- !u!1 &8299956644588538545
 GameObject:
   m_ObjectHideFlags: 0
