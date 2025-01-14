@@ -4,6 +4,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(BoxCollider))]
 public class MudInteraction : MonoBehaviour
 {
+    [SerializeField] private bool canPlant = true;
     private BoxCollider boxCollider;
 
     // Evento opcional para acciones adicionales al plantar
@@ -47,16 +48,36 @@ public class MudInteraction : MonoBehaviour
 
     public void Plant(Item plantItem)
     {
-        if (plantItem != null && plantItem.prefab != null && plantItem.prefab.GetComponent<PlantGrowth>() != null)
+        if (!canPlant)
         {
-            // Instancia el prefab de la planta en la posición del barro
-            Instantiate(plantItem.prefab, transform.position, Quaternion.identity);
-            Debug.Log($"Plantaste: {plantItem.itemName}");
-            OnPlant?.Invoke(plantItem);
+            Debug.LogWarning("No se puede plantar en este momento, esta tierrita está ocupada.");
+            return;
         }
-        else
+
+        if (plantItem == null || plantItem.prefab == null || plantItem.prefab.GetComponent<PlantGrowth>() == null)
         {
-            Debug.LogWarning("No se puede plantar: Item o prefab nulo.");
+            Debug.LogWarning("No se puede plantar: Item o prefab nulo o PlantGrowth nulo.");
+            return;
         }
+
+        Instantiate(plantItem.prefab, transform.position, Quaternion.identity);
+        PlantGrowth plantGrowth = plantItem.prefab.GetComponent<PlantGrowth>();
+
+        if (plantGrowth == null)
+        {
+            Debug.LogWarning("No se encontró PlantGrowth en el prefab de la planta.");
+            return;
+        }
+
+        plantGrowth.originMud = this;
+        SetCanPlant(false);
+        Debug.Log($"Plantaste: {plantItem.itemName}");
+        OnPlant?.Invoke(plantItem);
+
+    }
+
+    public void SetCanPlant(bool value)
+    {
+        canPlant = value;
     }
 }

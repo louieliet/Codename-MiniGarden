@@ -7,6 +7,7 @@ public class PlantGrowth : MonoBehaviour
 
     public GrowthPhase[] growthPhases; // Lista de fases configurables
     public Vector3 growthPerPhase = new Vector3(0, 5, 0); // Cambio en el tamaño por fase
+    public MudInteraction originMud;
 
     [SerializeField] private int currentPhaseIndex = 0;
     private Vector3 initialScale;
@@ -47,22 +48,25 @@ public class PlantGrowth : MonoBehaviour
 
     public bool TryHarvest(PlayerInventory playerInventory)
     {
-        if (isFullyGrown)
+        if (!isFullyGrown)
         {
-            GrowthPhase currentPhase = growthPhases[currentPhaseIndex - 1];
-            Debug.Log($"Fase actual: {currentPhase.phaseName}, CanBeHarvested: {currentPhase.canBeHarvested}, HarvestItem: {currentPhase.harvestItem}");
-
-            if (currentPhase.canBeHarvested && currentPhase.harvestItem != null)
-            {
-                playerInventory.AddToInventory(currentPhase.harvestItem, currentPhase.harvestQuantity);
-                onHarvested?.Invoke();
-                Destroy(gameObject);
-                return true;
-            }
+            Debug.Log("La planta no está completamente crecida.");
+            return false;
         }
 
-        Debug.Log("La planta no está lista para ser recolectada.");
-        return false;
+        GrowthPhase currentPhase = growthPhases[currentPhaseIndex - 1];
+        Debug.Log($"Fase actual: {currentPhase.phaseName}, CanBeHarvested: {currentPhase.canBeHarvested}, HarvestItem: {currentPhase.harvestItem}");
+
+        if (currentPhase.canBeHarvested && currentPhase.harvestItem != null && originMud != null)
+        {
+            originMud.SetCanPlant(true);
+            playerInventory.AddToInventory(currentPhase.harvestItem, currentPhase.harvestQuantity);
+            onHarvested?.Invoke();
+            Destroy(gameObject);
+        }
+
+        return true;
+
     }
 
 }
