@@ -4,14 +4,12 @@ using UnityEngine.InputSystem;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
-    public float smoothTime = 0.3f;
+    [Range(0, 1)] public float smoothTime = 0.3f;
     public Vector3 offset;
     private Vector3 velocity = Vector3.zero;
     public float zoomSpeed = 2.0f;
-    public float zMinZoom = 5.0f;
-    public float zMaxZoom = 20.0f;
-    public float yMinZoom = 5.0f;
-    public float yMaxZoom = 20.0f;
+    [SerializeField] private Vector2 zZoom;
+    [SerializeField] private Vector2 yZoom;
 
     private void Update()
     {
@@ -26,7 +24,7 @@ public class CameraFollow : MonoBehaviour
     private void HandleZoom()
     {
         float scrollValue = Mouse.current.scroll.ReadValue().y;
-        offset.y = Mathf.Clamp(offset.y - scrollValue * zoomSpeed * Time.deltaTime, yMinZoom, yMaxZoom);
-        offset.z = Mathf.Clamp(offset.z + scrollValue * zoomSpeed * Time.deltaTime, -zMaxZoom, -zMinZoom);
+        offset.y = Mathf.Clamp(offset.y - scrollValue * zoomSpeed * Time.deltaTime, yZoom.x, yZoom.y);
+        offset.z = Mathf.Clamp(offset.z + scrollValue * zoomSpeed * Time.deltaTime, -zZoom.y, -zZoom.x);
     }
 }
