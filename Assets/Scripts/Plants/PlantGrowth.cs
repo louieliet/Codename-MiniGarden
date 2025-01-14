@@ -4,11 +4,15 @@ using UnityEngine.Events;
 
 public class PlantGrowth : MonoBehaviour
 {
+
     public GrowthPhase[] growthPhases; // Lista de fases configurables
     public Vector3 growthPerPhase = new Vector3(0, 5, 0); // Cambio en el tamaño por fase
 
-    private int currentPhaseIndex = 0;
+    [SerializeField] private int currentPhaseIndex = 0;
     private Vector3 initialScale;
+    private bool isFullyGrown = false;
+
+    public UnityEvent onHarvested; // Evento que se dispara al recolectar la planta
 
     private void Start()
     {
@@ -22,7 +26,6 @@ public class PlantGrowth : MonoBehaviour
         {
             GrowthPhase currentPhase = growthPhases[currentPhaseIndex];
 
-            // Invocar eventos de inicio de fase
             currentPhase.onPhaseStart?.Invoke();
 
             float elapsedTime = 0;
@@ -32,15 +35,34 @@ public class PlantGrowth : MonoBehaviour
                 yield return null;
             }
 
-            // Escalar la planta al final de la fase
             transform.localScale += growthPerPhase;
 
-            // Invocar eventos de fin de fase
             currentPhase.onPhaseEnd?.Invoke();
-
             currentPhaseIndex++;
         }
 
-        Debug.Log("La planta ha completado todas las fases de crecimiento.");
+        isFullyGrown = true;
+        Debug.Log("La planta ha alcanzado su crecimiento máximo.");
     }
+
+    public bool TryHarvest(PlayerInventory playerInventory)
+    {
+        if (currentPhaseIndex == growthPhases.Length)
+        {
+            GrowthPhase currentPhase = growthPhases[currentPhaseIndex - 1];
+            Debug.Log($"Fase actual: {currentPhase.phaseName}, CanBeHarvested: {currentPhase.canBeHarvested}, HarvestItem: {currentPhase.harvestItem}");
+
+            if (currentPhase.canBeHarvested && currentPhase.harvestItem != null)
+            {
+                playerInventory.AddToInventory(currentPhase.harvestItem, currentPhase.harvestQuantity);
+                onHarvested?.Invoke();
+                Destroy(gameObject);
+                return true;
+            }
+        }
+
+        Debug.Log("La planta no está lista para ser recolectada.");
+        return false;
+    }
+
 }

@@ -205,6 +205,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5587323658058856823}
   - component: {fileID: 4238481838905405557}
+  - component: {fileID: 5900189566370304324}
+  - component: {fileID: -5451366503029903433}
   m_Layer: 0
   m_Name: Test_TomatoPlant
   m_TagString: Untagged
@@ -250,6 +252,9 @@ MonoBehaviour:
     onPhaseEnd:
       m_PersistentCalls:
         m_Calls: []
+    canBeHarvested: 0
+    harvestItem: {fileID: 0}
+    harvestQuantity: 1
   - phaseName: Second Phase
     duration: 3
     onPhaseStart:
@@ -258,4 +263,44 @@ MonoBehaviour:
     onPhaseEnd:
       m_PersistentCalls:
         m_Calls: []
+    canBeHarvested: 1
+    harvestItem: {fileID: 11400000, guid: d7fddc5d7801f3248b46fc81077f3685, type: 2}
+    harvestQuantity: 1
   growthPerPhase: {x: 1, y: 1, z: 1}
+  onHarvested:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5900189566370304324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6791427105434058726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8986171c9397abb4284705e332b06052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 0}
+--- !u!65 &-5451366503029903433
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6791427105434058726}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
