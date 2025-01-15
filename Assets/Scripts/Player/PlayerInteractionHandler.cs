@@ -38,6 +38,17 @@ public class PlayerInteractionHandler : MonoBehaviour
             currentConversationStarter = closestConversationStarter;
             currentConversationStarter?.ShowWarning();
         }
+
+        // Check if the player is too far from the current conversation starter
+        if (currentConversationStarter != null)
+        {
+            float distance = Vector3.Distance(transform.position, currentConversationStarter.transform.position);
+            if (distance > interactionRadius)
+            {
+                currentConversationStarter.StopConversation();
+                currentConversationStarter = null;
+            }
+        }
     }
 
     public void OnInteract(InputAction.CallbackContext context)

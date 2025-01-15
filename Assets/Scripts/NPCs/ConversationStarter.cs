@@ -16,6 +16,11 @@ public class ConversationStarter : MonoBehaviour
         ConversationManager.Instance.StartConversation(npcConversation);
     }
 
+    public void StopConversation()
+    {
+        ConversationManager.Instance.EndConversation();
+    }
+
     public void ShowWarning()
     {
         warningObject.SetActive(true);

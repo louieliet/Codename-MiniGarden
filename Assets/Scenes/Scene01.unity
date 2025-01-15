@@ -14642,6 +14642,14 @@ PrefabInstance:
       propertyPath: inventoryUIManager
       value: 
       objectReference: {fileID: 1408993738}
+    - target: {fileID: 5115163847770758049, guid: 6c0e7cf81f8c44e4c8c8137056903488, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.042
+      objectReference: {fileID: 0}
+    - target: {fileID: 6823465491283395569, guid: 6c0e7cf81f8c44e4c8c8137056903488, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7333336152430273067, guid: 6c0e7cf81f8c44e4c8c8137056903488, type: 3}
       propertyPath: m_TagString
       value: Player
