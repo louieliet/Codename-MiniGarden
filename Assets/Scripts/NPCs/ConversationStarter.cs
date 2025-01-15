@@ -3,7 +3,7 @@ using DialogueEditor;
 
 public class ConversationStarter : MonoBehaviour
 {
-    [SerializeField] private NPCConversation npcConversation;
+    public NPCConversation npcConversation;
     [SerializeField] private GameObject warningObject;
 
     private void Start()
@@ -29,5 +29,10 @@ public class ConversationStarter : MonoBehaviour
     public void HideWarning()
     {
         warningObject.SetActive(false);
+    }
+
+    public void SetConversation(NPCConversation conversation)
+    {
+        npcConversation = conversation;
     }
 }

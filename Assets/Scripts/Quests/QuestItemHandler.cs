@@ -6,7 +6,16 @@ public class QuestItemHandler : MonoBehaviour
     [SerializeField] private Quest relatedQuest; // Misión asociada a este objeto
     [SerializeField] private Item requiredItem;  // Ítem necesario para completar la misión
     [SerializeField] private int requiredQuantity = 1; // Cantidad requerida
-    public Inventory playerInventory; // Referencia al inventario del jugador
+    public QuestGiver _questGiver;
+    public Inventory playerInventory;
+
+    private void Start()
+    {
+        if (_questGiver == null)
+        {
+            Debug.LogError("No se ha asignado un QuestGiver para este objeto.");
+        }
+    }
 
     public void ShowWarning()
     {
@@ -27,6 +36,7 @@ public class QuestItemHandler : MonoBehaviour
             if (playerInventory.RemoveItem(requiredItem, requiredQuantity))
             {
                 Debug.Log($"Has completado la misión: {relatedQuest.questName}");
+                _questGiver.FinalConversation();
                 relatedQuest.CompleteQuest();
                 gameObject.SetActive(false);
             }
