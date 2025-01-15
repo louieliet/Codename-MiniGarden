@@ -2390,12 +2390,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83189876d4d389f43b7dd2e925aa112e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentIDCounter: 19
-  json: '{"Options":[{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":8}],"EditorInfo":{"isRoot":false,"xPos":101,"yPos":221},"ID":6,"ParamActions":[],"TMPFontGUID":null,"Text":"Quest","parentUIDs":[0],"SpeechUID":-1},{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":396,"yPos":212},"ID":7,"ParamActions":[],"TMPFontGUID":null,"Text":"Go
-    away","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":6},{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":7}],"EditorInfo":{"isRoot":true,"xPos":229,"yPos":64},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Hola!
+  CurrentIDCounter: 22
+  json: '{"Options":[{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[{"__type":"EditableBoolCondition:#DialogueEditor","ParameterName":"QuestGiven","CheckType":0,"RequiredValue":false}],"NodeUID":8},{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[{"__type":"EditableBoolCondition:#DialogueEditor","ParameterName":"QuestGiven","CheckType":0,"RequiredValue":true}],"NodeUID":20}],"EditorInfo":{"isRoot":false,"xPos":-10.5,"yPos":179},"ID":6,"ParamActions":[],"TMPFontGUID":null,"Text":"Quest","parentUIDs":[0],"SpeechUID":-1},{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":258.5,"yPos":177},"ID":7,"ParamActions":[],"TMPFontGUID":null,"Text":"Go
+    away","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[{"__type":"EditableBoolParameter:#DialogueEditor","ParameterName":"QuestGiven","BoolValue":false}],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":6},{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":7}],"EditorInfo":{"isRoot":true,"xPos":174.5,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Hola!
     ","parentUIDs":[],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Farmer
-    ","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":87,"yPos":318},"ID":8,"ParamActions":[],"TMPFontGUID":null,"Text":"Dame
-    un tomate","parentUIDs":[6],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Farmer","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+    ","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":-85.5,"yPos":274},"ID":8,"ParamActions":[{"__type":"EditableSetBoolParamAction:#DialogueEditor","ParameterName":"QuestGiven","Value":true}],"TMPFontGUID":null,"Text":"Dame
+    un tomate","parentUIDs":[6],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Farmer","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":162,"yPos":278},"ID":20,"ParamActions":[],"TMPFontGUID":null,"Text":"Si
+    ya tienes el tomate, ponlo en la canasta","parentUIDs":[6],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Farmer","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
   DefaultName: 
   DefaultSprite: {fileID: 0}
@@ -2405,23 +2406,12 @@ MonoBehaviour:
   - {fileID: 1220464905}
   - {fileID: 1220464904}
   - {fileID: 1220464903}
+  - {fileID: 1220464906}
   ContinueFont: {fileID: 0}
   EndConversationFont: {fileID: 0}
   Event:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4387756704019489995}
-        m_TargetAssemblyTypeName: QuestGiver, Assembly-CSharp
-        m_MethodName: AssignQuest
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!4 &406364172
 Transform:
   m_ObjectHideFlags: 0
@@ -6393,11 +6383,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4905684144481780, guid: dc00aab85b301f242896a77c4b442ec0, type: 3}
   m_PrefabInstance: {fileID: 1075752002}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1083733745 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4535992214034158418, guid: b7f36234e401a334ab4f875f6eea779e, type: 3}
-  m_PrefabInstance: {fileID: 8656235379846384424}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1107010361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7865,6 +7850,7 @@ GameObject:
   - component: {fileID: 1220464905}
   - component: {fileID: 1220464904}
   - component: {fileID: 1220464903}
+  - component: {fileID: 1220464906}
   m_Layer: 0
   m_Name: ConversationEventInfo
   m_TagString: Untagged
@@ -7974,6 +7960,25 @@ MonoBehaviour:
   NodeID: 6
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
+  Audio: {fileID: 0}
+--- !u!114 &1220464906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220464900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00abedce3cdbbba46bf2d86c9518c9f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event:
+    m_PersistentCalls:
+      m_Calls: []
+  NodeID: 20
+  TMPFont: {fileID: 0}
+  Icon: {fileID: 21300000, guid: f73b638867e27da41a0e0b304969bb1d, type: 3}
   Audio: {fileID: 0}
 --- !u!114 &1224597094 stripped
 MonoBehaviour:
@@ -9012,25 +9017,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3983313954024347368, guid: b7f36234e401a334ab4f875f6eea779e, type: 3}
   m_PrefabInstance: {fileID: 8656235379846384424}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1083733745}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3191eadf94738641a84eb1dca47fe08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1408993744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1083733745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cd4571479c23ea4ab73944cce6a0d0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeQuests: []
 --- !u!1001 &1433265009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15371,10 +15363,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4535992214034158418, guid: b7f36234e401a334ab4f875f6eea779e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1408993744}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f36234e401a334ab4f875f6eea779e, type: 3}
 --- !u!1 &8795260844066914726
 GameObject:

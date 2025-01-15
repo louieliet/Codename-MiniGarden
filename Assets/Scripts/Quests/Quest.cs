@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "NewQuest", menuName = "Quests/Quest")]
 public class Quest : ScriptableObject
 {

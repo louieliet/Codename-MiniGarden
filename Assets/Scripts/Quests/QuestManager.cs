@@ -5,6 +5,7 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance { get; private set; } // Singleton para el acceso global
     public List<Quest> activeQuests = new List<Quest>();      // Lista de misiones activas
+    public List<Quest> allQuests = new List<Quest>();      // Lista de misiones activas
 
     private void Awake()
     {
@@ -14,6 +15,11 @@ public class QuestManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    private void Start()
+    {
+        ResetQuests();
     }
 
     public void AddQuest(Quest quest)
@@ -47,5 +53,14 @@ public class QuestManager : MonoBehaviour
     {
         Debug.Log($"Recompensa recibida: {rewardAmount}");
         // Aquí puedes agregar lógica para otorgar la recompensa al jugador (dinero, experiencia, etc.).
+    }
+
+    private void ResetQuests()
+    {
+        foreach (var quest in allQuests)
+        {
+            quest.isCompleted = false;
+        }
+        Debug.Log("Misiones reiniciadas.");
     }
 }

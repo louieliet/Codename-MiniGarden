@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 3983313954024347368}
   - component: {fileID: 8568734282133614785}
   - component: {fileID: 4508679839884496961}
+  - component: {fileID: 8634001428986624412}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -280,6 +281,21 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8634001428986624412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4535992214034158418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd4571479c23ea4ab73944cce6a0d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeQuests: []
+  allQuests:
+  - {fileID: 11400000, guid: 0c88d7985b95cf74bb7a68b68d0f8fda, type: 2}
 --- !u!1 &5243961135003567159
 GameObject:
   m_ObjectHideFlags: 0

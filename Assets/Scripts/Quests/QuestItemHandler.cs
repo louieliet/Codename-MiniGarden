@@ -1,4 +1,5 @@
 using UnityEngine;
+using DialogueEditor;
 
 public class QuestItemHandler : MonoBehaviour
 {
@@ -9,13 +10,13 @@ public class QuestItemHandler : MonoBehaviour
 
     public void ShowWarning()
     {
-        Debug.Log("Acércate e interactúa para completar la quest.");
+        //Debug.Log("Acércate e interactúa para completar la quest.");
         // Aquí puedes mostrar un indicador visual (como un UI encima del objeto)
     }
 
     public void HideWarning()
     {
-        Debug.Log("Te alejaste del objeto de quest.");
+        // Debug.Log("Te alejaste del objeto de quest.");
         // Aquí puedes ocultar el indicador visual
     }
 
@@ -27,7 +28,6 @@ public class QuestItemHandler : MonoBehaviour
             {
                 Debug.Log($"Has completado la misión: {relatedQuest.questName}");
                 relatedQuest.CompleteQuest();
-                // Opcional: Desactivar o destruir el objeto interactuable
                 gameObject.SetActive(false);
             }
             else
