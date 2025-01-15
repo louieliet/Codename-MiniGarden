@@ -31,22 +31,32 @@ public class PlayerInteractionHandler : MonoBehaviour
             }
         }
 
-        // Mostrar u ocultar la advertencia en función del NPC más cercano
+        // Comprobar si el NPC más cercano cambia
         if (closestConversationStarter != currentConversationStarter)
         {
-            currentConversationStarter?.HideWarning();
+            if (currentConversationStarter != null)
+            {
+                currentConversationStarter.HideWarning(); // Ocultar advertencia del NPC anterior
+                currentConversationStarter.StopConversation(); // Cerrar conversación si está activa
+            }
+
             currentConversationStarter = closestConversationStarter;
-            currentConversationStarter?.ShowWarning();
+
+            if (currentConversationStarter != null)
+            {
+                currentConversationStarter.ShowWarning(); // Mostrar advertencia del NPC más cercano
+            }
         }
 
-        // Check if the player is too far from the current conversation starter
+        // Verificar si el jugador se aleja demasiado del NPC actual
         if (currentConversationStarter != null)
         {
             float distance = Vector3.Distance(transform.position, currentConversationStarter.transform.position);
             if (distance > interactionRadius)
             {
-                currentConversationStarter.StopConversation();
-                currentConversationStarter = null;
+                currentConversationStarter.HideWarning();  // Ocultar advertencia al salir del rango
+                currentConversationStarter.StopConversation(); // Cerrar conversación si está activa
+                currentConversationStarter = null;         // Limpiar la referencia actual
             }
         }
     }
