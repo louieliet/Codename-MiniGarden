@@ -8,11 +8,11 @@ public class QuestItemHandler : MonoBehaviour, IInteractable
     [SerializeField] private int requiredQuantity = 1; // Cantidad requerida
     [SerializeField] private GameObject warningObject; // Objeto visual para mostrar advertencia
     public QuestGiver _questGiver;
-    public Inventory playerInventory;
+    public PlayerInventory playerInventory;
 
     private void Start()
     {
-        playerInventory = FindObjectOfType<PlayerInventory>().GetInventory();
+        playerInventory = FindObjectOfType<PlayerInventory>();
 
         if (playerInventory == null)
         {
@@ -54,7 +54,7 @@ public class QuestItemHandler : MonoBehaviour, IInteractable
         }
 
 
-        if (playerInventory.RemoveItem(requiredItem, requiredQuantity))
+        if (playerInventory.RemoveFromInventory(requiredItem, requiredQuantity))
         {
             Debug.Log($"Has completado la misión: {relatedQuest.questName}");
             _questGiver.FinalConversation();

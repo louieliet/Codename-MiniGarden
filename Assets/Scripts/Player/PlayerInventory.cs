@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -24,15 +25,17 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public void RemoveFromInventory(Item item, int quantity)
+    public bool RemoveFromInventory(Item item, int quantity)
     {
         if (inventory.RemoveItem(item, quantity))
         {
             Debug.Log($"Se eliminó {quantity} {item.itemName} del inventario.");
+            return true;
         }
         else
         {
             Debug.Log("No se pudo eliminar el objeto del inventario.");
+            return false;
         }
     }
 
@@ -40,4 +43,20 @@ public class PlayerInventory : MonoBehaviour
     {
         return inventory;
     }
+
+    public void SetActiveSlot(Inventory.InventorySlot slot)
+    {
+        inventory.selectedSlot = slot;
+    }
+
+    public Inventory.InventorySlot GetActiveSlot()
+    {
+        return inventory.selectedSlot;
+    }
+
+    public List<Inventory.InventorySlot> GetSlots()
+    {
+        return inventory.slots;
+    }
+
 }

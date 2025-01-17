@@ -8,15 +8,14 @@ public class InventoryUIManager : MonoBehaviour
     public GameObject inventoryPanel; // Panel del inventario
     public GameObject inventorySlotPrefab; // Prefab de los slots del inventario
     public Transform inventoryGrid; // Contenedor para los slots
-    public Inventory playerInventory; // Referencia al inventario del jugador
+    public PlayerInventory playerInventory; // Referencia al inventario del jugador
 
     private List<GameObject> slots = new List<GameObject>();
-
-    private Inventory.InventorySlot activeSlot;
 
     private void Start()
     {
         // Desactiva el panel del inventario al inicio
+        playerInventory = FindObjectOfType<PlayerInventory>();
         inventoryPanel.SetActive(true);
         inventoryPanel.SetActive(false);
         UpdateInventoryUI();
@@ -41,7 +40,7 @@ public class InventoryUIManager : MonoBehaviour
         slots.Clear();
 
         // Crea nuevos slots basados en el inventario
-        foreach (var slot in playerInventory.slots)
+        foreach (var slot in playerInventory.GetSlots())
         {
             if (slot.item != null)
             {
@@ -63,7 +62,7 @@ public class InventoryUIManager : MonoBehaviour
 
     private void OnSlotClicked(Inventory.InventorySlot slot)
     {
-        playerInventory.selectedSlot = slot;
+        playerInventory.SetActiveSlot(slot);
         Debug.Log($"Has seleccionado: {slot.item.itemName}");
     }
 
