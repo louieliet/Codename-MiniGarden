@@ -31,10 +31,23 @@ public class PlayerPlant : MonoBehaviour
         Item selectedItem = selectedSlot.item;
         int selectedQuantity = selectedSlot.quantity;
 
-        if (selectedItem.itemType != ItemType.Plant || selectedQuantity <= 0 || currentMud == null) return;
+        // Validaciones básicas
+        if (selectedItem.itemType != ItemType.Plant || selectedQuantity <= 0 || currentMud == null)
+        {
+            return;
+        }
 
-        currentMud.Plant(selectedItem);
-        playerInventory.RemoveItem(selectedItem, 1);
+        // Llamamos a Plant y guardamos el resultado
+        bool wasPlanted = currentMud.Plant(selectedItem);
 
+        // Solo si la siembra fue exitosa, removemos 1 del inventario
+        if (wasPlanted)
+        {
+            playerInventory.RemoveItem(selectedItem, 1);
+        }
+        else
+        {
+            Debug.Log("La siembra no fue exitosa, no se descuenta el ítem del inventario.");
+        }
     }
 }

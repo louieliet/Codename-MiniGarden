@@ -46,20 +46,23 @@ public class MudInteraction : MonoBehaviour
         }
     }
 
-    public void Plant(Item plantItem)
+    /// <summary>
+    /// Intenta plantar la semilla. Retorna true si la siembra fue exitosa, false si no.
+    /// </summary>
+    public bool Plant(Item plantItem)
     {
         // Primero, validamos si se puede plantar
         if (!canPlant)
         {
             Debug.LogWarning("No se puede plantar en este momento, esta tierrita está ocupada.");
-            return;
+            return false;
         }
 
         // Validamos el item y su prefab
         if (plantItem == null || plantItem.prefab == null)
         {
             Debug.LogWarning("No se puede plantar: Item o prefab nulo.");
-            return;
+            return false;
         }
 
         // Instanciamos la planta a partir del prefab
@@ -72,7 +75,7 @@ public class MudInteraction : MonoBehaviour
             Debug.LogWarning("No se encontró PlantGrowth en el prefab de la planta.");
             // Opcional: destruir la instancia si el script no existe
             Destroy(newPlant);
-            return;
+            return false;
         }
 
         // Asignamos el mud de origen en la instancia
@@ -85,6 +88,9 @@ public class MudInteraction : MonoBehaviour
 
         // Disparamos el evento opcional si deseas realizar otras acciones
         OnPlant?.Invoke(plantItem);
+
+        // Si llegaste hasta aquí, la siembra fue exitosa
+        return true;
     }
 
     public void SetCanPlant(bool value)
