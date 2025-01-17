@@ -10,6 +10,7 @@ public class Quest : ScriptableObject
     public int requiredQuantity = 1;   // Cantidad requerida del ítem
     public int rewardAmount = 100;     // Recompensa (por ejemplo, dinero o puntos)
     public bool isCompleted = false;   // Estado de la misión
+    public bool isAssigned = false;   // Estado de la misión
 
     public void CompleteQuest()
     {

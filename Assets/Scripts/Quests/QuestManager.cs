@@ -24,8 +24,9 @@ public class QuestManager : MonoBehaviour
 
     public void AddQuest(Quest quest)
     {
-        if (!activeQuests.Contains(quest))
+        if (!activeQuests.Contains(quest) && !quest.isAssigned)
         {
+            quest.isAssigned = true;
             activeQuests.Add(quest);
             Debug.Log($"Nueva misión añadida: {quest.questName}");
         }
@@ -60,6 +61,7 @@ public class QuestManager : MonoBehaviour
         foreach (var quest in allQuests)
         {
             quest.isCompleted = false;
+            quest.isAssigned = false;
         }
         Debug.Log("Misiones reiniciadas.");
     }

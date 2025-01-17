@@ -2,7 +2,15 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public Inventory inventory; // Referencia al ScriptableObject de inventario
+    [SerializeField] private Inventory inventory; // Referencia al ScriptableObject de inventario
+
+    private void Start()
+    {
+        if (inventory == null)
+        {
+            Debug.LogError("No se ha asignado un inventario al jugador.");
+        }
+    }
 
     public void AddToInventory(Item item, int quantity)
     {
@@ -26,5 +34,10 @@ public class PlayerInventory : MonoBehaviour
         {
             Debug.Log("No se pudo eliminar el objeto del inventario.");
         }
+    }
+
+    public Inventory GetInventory()
+    {
+        return inventory;
     }
 }

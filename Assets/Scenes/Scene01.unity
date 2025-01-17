@@ -11917,6 +11917,10 @@ PrefabInstance:
       propertyPath: warningObject
       value: 
       objectReference: {fileID: 1917999051}
+    - target: {fileID: 1244884184454700475, guid: d26dc1241d332c342b898a57f1164932, type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4151725995838774856, guid: d26dc1241d332c342b898a57f1164932, type: 3}
       propertyPath: m_RootOrder
       value: 114

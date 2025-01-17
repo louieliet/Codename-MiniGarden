@@ -12,10 +12,18 @@ public class QuestItemHandler : MonoBehaviour, IInteractable
 
     private void Start()
     {
+        playerInventory = FindObjectOfType<PlayerInventory>().GetInventory();
+
+        if (playerInventory == null)
+        {
+            Debug.LogError("No se ha encontrado el inventario del jugador.");
+        }
+
         if (_questGiver == null)
         {
             Debug.LogError("No se ha asignado un QuestGiver para este objeto para:" + gameObject.name);
         }
+
     }
 
     public void ShowWarning()
@@ -38,23 +46,25 @@ public class QuestItemHandler : MonoBehaviour, IInteractable
 
     public void CompleteQuest()
     {
-        if (relatedQuest != null && !relatedQuest.isCompleted)
+
+        if (relatedQuest == null || relatedQuest.isCompleted || !relatedQuest.isAssigned)
         {
-            if (playerInventory.RemoveItem(requiredItem, requiredQuantity))
-            {
-                Debug.Log($"Has completado la misión: {relatedQuest.questName}");
-                _questGiver.FinalConversation();
-                relatedQuest.CompleteQuest();
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                Debug.Log("No tienes los ítems necesarios para completar la misión.");
-            }
+            Debug.Log("Esta misión ya fue completada o no está asignada.");
+            return;
+        }
+
+
+        if (playerInventory.RemoveItem(requiredItem, requiredQuantity))
+        {
+            Debug.Log($"Has completado la misión: {relatedQuest.questName}");
+            _questGiver.FinalConversation();
+            relatedQuest.CompleteQuest();
+            gameObject.SetActive(false);
         }
         else
         {
-            Debug.Log("Esta misión ya fue completada o no está asignada.");
+            Debug.Log("No tienes los ítems necesarios para completar la misión.");
         }
+
     }
 }
