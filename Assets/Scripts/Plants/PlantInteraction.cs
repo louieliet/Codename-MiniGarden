@@ -22,6 +22,7 @@ public class PlantInteraction : MonoBehaviour
         if (!plantGrowth.TryHarvest(playerInventory))
         {
             Debug.Log("La planta no está lista para ser recolectada.");
+            return;
         }
 
         Debug.Log("Planta recolectada y añadida al inventario.");

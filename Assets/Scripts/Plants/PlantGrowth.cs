@@ -46,6 +46,7 @@ public class PlantGrowth : MonoBehaviour
         Debug.Log("La planta ha alcanzado su crecimiento máximo.");
     }
 
+    // ...existing code...
     public bool TryHarvest(PlayerInventory playerInventory)
     {
         if (!isFullyGrown)
@@ -63,10 +64,10 @@ public class PlantGrowth : MonoBehaviour
             playerInventory.AddToInventory(currentPhase.harvestItem, currentPhase.harvestQuantity);
             onHarvested?.Invoke();
             Destroy(gameObject);
+            return true;
         }
 
-        return true;
-
+        return false;
     }
-
+    // ...existing code...
 }

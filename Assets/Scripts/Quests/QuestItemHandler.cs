@@ -13,7 +13,7 @@ public class QuestItemHandler : MonoBehaviour
     {
         if (_questGiver == null)
         {
-            Debug.LogError("No se ha asignado un QuestGiver para este objeto.");
+            Debug.LogError("No se ha asignado un QuestGiver para este objeto para:" + gameObject.name);
         }
     }
 
