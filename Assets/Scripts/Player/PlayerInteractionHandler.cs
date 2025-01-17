@@ -7,70 +7,60 @@ public class PlayerInteractionHandler : MonoBehaviour
     [SerializeField] private float interactionRadius = 2f;   // Radio de la esfera de interacción
     public bool debugMode = false;
 
-    private ConversationStarter currentConversationStarter;
-    private QuestItemHandler currentQuestItemHandler;
+    // Aquí guardamos la referencia al interactable más cercano
+    private IInteractable currentInteractable;
 
     private void Update()
     {
         // Detectar colisiones dentro de la esfera
         Collider[] hits = Physics.OverlapSphere(transform.position, interactionRadius, interactionLayerMask);
 
-        // Buscar el NPC o el objeto interactuable más cercano
-        ConversationStarter closestConversationStarter = null;
-        QuestItemHandler closestQuestItemHandler = null;
+        // Buscar el interactable más cercano
+        IInteractable closestInteractable = null;
         float closestDistance = Mathf.Infinity;
 
         foreach (var hitCollider in hits)
         {
             float distance = Vector3.Distance(transform.position, hitCollider.transform.position);
 
-            // Comprobar si es un NPC
-            if (hitCollider.TryGetComponent(out ConversationStarter conversationStarter))
+            // Comprobar si implementa IInteractable
+            if (hitCollider.TryGetComponent(out IInteractable possibleInteractable))
             {
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    closestConversationStarter = conversationStarter;
-                }
-            }
-
-            // Comprobar si es un objeto de quest
-            if (hitCollider.TryGetComponent(out QuestItemHandler questItemHandler))
-            {
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestQuestItemHandler = questItemHandler;
+                    closestInteractable = possibleInteractable;
                 }
             }
         }
 
-        // Manejar el NPC más cercano
-        if (closestConversationStarter != currentConversationStarter)
+        // Si encontramos un interactable diferente al actual
+        if (closestInteractable != currentInteractable)
         {
-            currentConversationStarter?.HideWarning(); // Ocultar advertencia del NPC anterior
-            currentConversationStarter?.StopConversation(); // Detener la conversación si está activa
-            currentConversationStarter = closestConversationStarter;
-            currentConversationStarter?.ShowWarning(); // Mostrar advertencia del NPC más cercano
+            // Ocultar advertencia del anterior (si existía)
+            currentInteractable?.HideWarning();
+
+            // Actualizar referencia
+            currentInteractable = closestInteractable;
+
+            // Mostrar advertencia del nuevo (si existe)
+            currentInteractable?.ShowWarning();
         }
 
-        // Manejar el objeto de quest más cercano
-        if (closestQuestItemHandler != currentQuestItemHandler)
+        // Si el jugador se aleja demasiado
+        if (currentInteractable != null)
         {
-            currentQuestItemHandler?.HideWarning();
-            currentQuestItemHandler = closestQuestItemHandler;
-            currentQuestItemHandler?.ShowWarning();
-        }
+            // Accedemos al transform a través de cast a MonoBehaviour
+            // porque IInteractable en sí no hereda de MonoBehaviour
+            float distance = Vector3.Distance(
+                transform.position,
+                ((MonoBehaviour)currentInteractable).transform.position
+            );
 
-        // Verificar si el jugador se aleja demasiado del NPC actual
-        if (currentConversationStarter != null)
-        {
-            float distance = Vector3.Distance(transform.position, currentConversationStarter.transform.position);
             if (distance > interactionRadius)
             {
-                currentConversationStarter.HideWarning();  // Ocultar advertencia al salir del rango
-                currentConversationStarter.StopConversation(); // Cerrar conversación si está activa
-                currentConversationStarter = null;         // Limpiar la referencia actual
+                currentInteractable.HideWarning();
+                currentInteractable = null;  // Limpiar referencia
             }
         }
     }
@@ -79,16 +69,8 @@ public class PlayerInteractionHandler : MonoBehaviour
     {
         if (context.phase != InputActionPhase.Performed) return;
 
-        // Interactuar con el NPC más cercano
-        if (currentConversationStarter != null)
-        {
-            currentConversationStarter.StartConversation();
-        }
-        // Interactuar con el objeto de quest más cercano
-        else if (currentQuestItemHandler != null)
-        {
-            currentQuestItemHandler.CompleteQuest();
-        }
+        // Llamar a Interact() del objeto más cercano
+        currentInteractable?.Interact();
     }
 
     private void OnDrawGizmosSelected()

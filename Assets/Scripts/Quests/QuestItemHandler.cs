@@ -1,7 +1,7 @@
 using UnityEngine;
 using DialogueEditor;
 
-public class QuestItemHandler : MonoBehaviour
+public class QuestItemHandler : MonoBehaviour, IInteractable
 {
     [SerializeField] private Quest relatedQuest; // Misión asociada a este objeto
     [SerializeField] private Item requiredItem;  // Ítem necesario para completar la misión
@@ -29,6 +29,11 @@ public class QuestItemHandler : MonoBehaviour
     {
         // Debug.Log("Te alejaste del objeto de quest.");
         warningObject.SetActive(false);
+    }
+
+    public void Interact()
+    {
+        CompleteQuest();
     }
 
     public void CompleteQuest()

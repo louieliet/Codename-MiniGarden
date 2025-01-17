@@ -1,7 +1,7 @@
 using UnityEngine;
 using DialogueEditor;
 
-public class ConversationStarter : MonoBehaviour
+public class ConversationStarter : MonoBehaviour, IInteractable
 {
     public NPCConversation npcConversation;
     [SerializeField] private GameObject warningObject;
@@ -9,6 +9,12 @@ public class ConversationStarter : MonoBehaviour
     private void Start()
     {
         warningObject.SetActive(false);
+    }
+
+    // Esta es la función que implementa IInteractable
+    public void Interact()
+    {
+        StartConversation();
     }
 
     public void StartConversation()
