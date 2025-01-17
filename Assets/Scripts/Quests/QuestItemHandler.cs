@@ -6,6 +6,7 @@ public class QuestItemHandler : MonoBehaviour
     [SerializeField] private Quest relatedQuest; // Misión asociada a este objeto
     [SerializeField] private Item requiredItem;  // Ítem necesario para completar la misión
     [SerializeField] private int requiredQuantity = 1; // Cantidad requerida
+    [SerializeField] private GameObject warningObject; // Objeto visual para mostrar advertencia
     public QuestGiver _questGiver;
     public Inventory playerInventory;
 
@@ -19,14 +20,15 @@ public class QuestItemHandler : MonoBehaviour
 
     public void ShowWarning()
     {
-        //Debug.Log("Acércate e interactúa para completar la quest.");
-        // Aquí puedes mostrar un indicador visual (como un UI encima del objeto)
+        // Debug.Log("Te acercaste al objeto de quest.");
+        warningObject.SetActive(true);
+
     }
 
     public void HideWarning()
     {
         // Debug.Log("Te alejaste del objeto de quest.");
-        // Aquí puedes ocultar el indicador visual
+        warningObject.SetActive(false);
     }
 
     public void CompleteQuest()
