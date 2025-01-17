@@ -13,7 +13,7 @@ public class MudInteraction : MonoBehaviour
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
-        boxCollider.isTrigger = true; // Asegúrate que el collider es un trigger
+        boxCollider.isTrigger = true; // Asegúrate de que el collider sea un trigger
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,7 +27,7 @@ public class MudInteraction : MonoBehaviour
             if (player != null)
             {
                 player.currentMud = this;
-                // Aquí podrías mostrar en la UI un mensaje indicando "Presiona E para plantar" 
+                // Aquí podrías mostrar en la UI un mensaje indicando "Presiona E para plantar"
             }
         }
     }
@@ -48,32 +48,43 @@ public class MudInteraction : MonoBehaviour
 
     public void Plant(Item plantItem)
     {
+        // Primero, validamos si se puede plantar
         if (!canPlant)
         {
             Debug.LogWarning("No se puede plantar en este momento, esta tierrita está ocupada.");
             return;
         }
 
-        if (plantItem == null || plantItem.prefab == null || plantItem.prefab.GetComponent<PlantGrowth>() == null)
+        // Validamos el item y su prefab
+        if (plantItem == null || plantItem.prefab == null)
         {
-            Debug.LogWarning("No se puede plantar: Item o prefab nulo o PlantGrowth nulo.");
+            Debug.LogWarning("No se puede plantar: Item o prefab nulo.");
             return;
         }
 
-        Instantiate(plantItem.prefab, transform.position, Quaternion.identity);
-        PlantGrowth plantGrowth = plantItem.prefab.GetComponent<PlantGrowth>();
+        // Instanciamos la planta a partir del prefab
+        GameObject newPlant = Instantiate(plantItem.prefab, transform.position, Quaternion.identity);
 
+        // Obtenemos el PlantGrowth de la instancia recién creada
+        PlantGrowth plantGrowth = newPlant.GetComponent<PlantGrowth>();
         if (plantGrowth == null)
         {
             Debug.LogWarning("No se encontró PlantGrowth en el prefab de la planta.");
+            // Opcional: destruir la instancia si el script no existe
+            Destroy(newPlant);
             return;
         }
 
+        // Asignamos el mud de origen en la instancia
         plantGrowth.originMud = this;
-        SetCanPlant(false);
-        Debug.Log($"Plantaste: {plantItem.itemName}");
-        OnPlant?.Invoke(plantItem);
 
+        // Marcamos que ya no se puede plantar hasta que se libere de nuevo
+        SetCanPlant(false);
+
+        Debug.Log($"Plantaste: {plantItem.itemName}");
+
+        // Disparamos el evento opcional si deseas realizar otras acciones
+        OnPlant?.Invoke(plantItem);
     }
 
     public void SetCanPlant(bool value)
