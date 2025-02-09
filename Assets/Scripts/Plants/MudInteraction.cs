@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider))]
-public class MudInteraction : MonoBehaviour
+public class MudInteraction : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool canPlant = true;
     private BoxCollider boxCollider;
@@ -10,24 +10,25 @@ public class MudInteraction : MonoBehaviour
     // Evento opcional para acciones adicionales al plantar
     public UnityEvent<Item> OnPlant;
 
-    private void Start()
+    // Referencia al inventario del jugador en rango
+    public PlayerInventory playerInventory;
+
+    private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
-        boxCollider.isTrigger = true; // Asegúrate de que el collider sea un trigger
+        boxCollider.isTrigger = true; // Asegúrate de que sea Trigger
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("El jugador ha entrado en contacto con el barro.");
-
-            // Asignamos este área de barro al jugador para permitirle plantar aquí
-            PlayerPlant player = other.GetComponent<PlayerPlant>();
-            if (player != null)
+            // Si el jugador tiene un PlayerInventory, lo almacenamos
+            var tempInventory = other.GetComponent<PlayerInventory>();
+            if (tempInventory != null)
             {
-                player.currentMud = this;
-                // Aquí podrías mostrar en la UI un mensaje indicando "Presiona E para plantar"
+                playerInventory = tempInventory;
+                ShowWarning(); // Opcional: Muestra mensaje "Pulsa E para plantar"
             }
         }
     }
@@ -36,18 +37,74 @@ public class MudInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("El jugador ha salido del área de barro.");
-            PlayerPlant player = other.GetComponent<PlayerPlant>();
-            if (player != null && player.currentMud == this)
+            // Si el jugador que sale es el mismo que teníamos asignado, limpiamos la ref.
+            var tempInventory = other.GetComponent<PlayerInventory>();
+            if (tempInventory == playerInventory)
             {
-                player.currentMud = null;
-                // Oculta el mensaje de plantado en la UI si lo habías mostrado
+                playerInventory = null;
+                HideWarning(); // Opcional: Oculta mensaje
             }
         }
     }
 
+    // MÉTODOS DE LA INTERFAZ -------------------------------------------------
+    public void Interact()
+    {
+        // Aquí ocurre la magia al presionar el mismo botón de "Interacción" que usas para NPC
+        TryPlant();
+    }
+
+    public void ShowWarning()
+    {
+        // Aquí puedes activar un texto en pantalla "Pulsa E para plantar", etc.
+        Debug.Log("Mostrar UI de 'Pulsa F para plantar'");
+    }
+
+    public void HideWarning()
+    {
+        // Aquí desactivas el texto
+        Debug.Log("Ocultar UI de 'Pulsa F para plantar'");
+    }
+    // ------------------------------------------------------------------------
+
+    private void TryPlant()
+    {
+        // Verificamos que haya un inventario de jugador en rango
+        if (playerInventory == null)
+        {
+            Debug.LogWarning("No hay PlayerInventory en rango para plantar.");
+            return;
+        }
+
+        // Obtenemos el slot seleccionado del inventario
+        var selectedSlot = playerInventory.GetInventory().selectedSlot;
+        if (selectedSlot == null || selectedSlot.item == null)
+        {
+            Debug.LogWarning("No hay un ítem seleccionado para plantar.");
+            return;
+        }
+
+        Item selectedItem = selectedSlot.item;
+        int selectedQuantity = selectedSlot.quantity;
+
+        // Validaciones: ¿es una planta? ¿hay cantidad?
+        if (selectedItem.itemType != ItemType.Plant || selectedQuantity <= 0)
+        {
+            Debug.Log("El ítem seleccionado no es una semilla o no hay suficiente cantidad.");
+            return;
+        }
+
+        // Intentamos plantar
+        bool wasPlanted = Plant(selectedItem);
+        if (wasPlanted)
+        {
+            // Si la siembra tuvo éxito, quitamos 1 item del inventario
+            playerInventory.GetInventory().RemoveItem(selectedItem, 1);
+        }
+    }
+
     /// <summary>
-    /// Intenta plantar la semilla. Retorna true si la siembra fue exitosa, false si no.
+    /// Instancia la planta en este barro.
     /// </summary>
     public bool Plant(Item plantItem)
     {

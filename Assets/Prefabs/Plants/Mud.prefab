@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1422981427660130483}
   - component: {fileID: 3390713177004319680}
   - component: {fileID: 1933161867535091456}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a56d6f71da65146be37cc8c92a8acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canPlant: 1
   OnPlant:
     m_PersistentCalls:
       m_Calls: []

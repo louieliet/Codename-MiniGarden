@@ -28,4 +28,5 @@ public class PlantInteraction : MonoBehaviour
         Debug.Log("Planta recolectada y añadida al inventario.");
 
     }
+
 }

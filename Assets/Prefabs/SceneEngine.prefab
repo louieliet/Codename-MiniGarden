@@ -58,7 +58,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4792109973680146052}
   - component: {fileID: 521716460382808813}
-  - component: {fileID: 263426943716949118}
   - component: {fileID: 3983313954024347368}
   - component: {fileID: 8568734282133614785}
   - component: {fileID: 4508679839884496961}
@@ -98,19 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897aa5d72bad0be42b993da9ab4d51b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &263426943716949118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4535992214034158418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13bdce61faadffe4c93f28ef06353a3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: 340ff08395b6ed0489ac44f5f7a90937, type: 2}
 --- !u!114 &3983313954024347368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,9 +440,9 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 0
   m_StartCorner: 0
-  m_StartAxis: 0
+  m_StartAxis: 1
   m_CellSize: {x: 20, y: 20}
-  m_Spacing: {x: 60, y: 10}
+  m_Spacing: {x: 100, y: 100}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &6889271605034027423
