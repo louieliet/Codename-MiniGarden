@@ -69,8 +69,20 @@ public class PlayerInteractionHandler : MonoBehaviour
     {
         if (context.phase != InputActionPhase.Performed) return;
 
-        // Llamar a Interact() del objeto más cercano
-        currentInteractable?.Interact();
+        // Realiza un raycast desde la cámara usando la posición del mouse.
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactionLayerMask))
+        {
+            // Comprueba si el objeto golpeado implementa IInteractable
+            if (hit.collider.TryGetComponent<IInteractable>(out IInteractable interactable))
+            {
+                // Solo interactúa si el interactable golpeado es el mismo que el currentInteractable (es decir, el que está en rango)
+                if (interactable == currentInteractable)
+                {
+                    currentInteractable.Interact();
+                }
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()

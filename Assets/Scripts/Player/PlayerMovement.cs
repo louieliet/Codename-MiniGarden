@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     public float speed = 5f;
     private bool isFrozen = false;
-    private Vector2 move, mouseLook, joystickLook;
-    private Vector3 rotationTarget;
     public bool isPc;
 
     private Rigidbody rb;

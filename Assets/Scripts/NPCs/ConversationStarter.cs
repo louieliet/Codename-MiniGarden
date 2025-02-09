@@ -1,6 +1,5 @@
 using UnityEngine;
 using DialogueEditor;
-
 public class ConversationStarter : MonoBehaviour, IInteractable
 {
     public NPCConversation npcConversation;
@@ -19,6 +18,7 @@ public class ConversationStarter : MonoBehaviour, IInteractable
 
     public void StartConversation()
     {
+        GameManager.Instance.TogglePlayerFreeze();
         ConversationManager.Instance.StartConversation(npcConversation);
     }
 
