@@ -4,32 +4,33 @@ using UnityEngine.Events;
 [RequireComponent(typeof(BoxCollider))]
 public class MudInteraction : MonoBehaviour, IInteractable
 {
-    [SerializeField] private bool canPlant = true;
+    #region Fields & Properties
+
+    [Header("Configuración de Plantación")]
+    [SerializeField] private bool canPlant = true; // Indica si el terreno está libre para plantar
     private BoxCollider boxCollider;
 
-    // Evento opcional para acciones adicionales al plantar
+    // Almacena la planta instanciada en este barro (si existe)
+    private PlantGrowth currentPlant;
+
+    // Evento opcional para acciones adicionales al plantar (por ejemplo, reproducir sonido o actualizar UI)
     public UnityEvent<Item> OnPlant;
 
-    // Referencia al inventario del jugador en rango
-    public PlayerInventory playerInventory;
+    #endregion
+
+    #region Unity Methods
 
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
-        boxCollider.isTrigger = true; // Asegúrate de que sea Trigger
+        boxCollider.isTrigger = true; // Asegurarse de que el collider sea un trigger
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            // Si el jugador tiene un PlayerInventory, lo almacenamos
-            var tempInventory = other.GetComponent<PlayerInventory>();
-            if (tempInventory != null)
-            {
-                playerInventory = tempInventory;
-                ShowWarning(); // Opcional: Muestra mensaje "Pulsa E para plantar"
-            }
+            ShowWarning();
         }
     }
 
@@ -37,47 +38,69 @@ public class MudInteraction : MonoBehaviour, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            // Si el jugador que sale es el mismo que teníamos asignado, limpiamos la ref.
-            var tempInventory = other.GetComponent<PlayerInventory>();
-            if (tempInventory == playerInventory)
+            HideWarning();
+        }
+    }
+
+    #endregion
+
+    #region IInteractable Implementation
+
+    /// <summary>
+    /// Al interactuar, se verifica el estado del barro:
+    /// - Si está libre (canPlant es true), se intenta plantar una semilla.
+    /// - Si ya hay una planta (canPlant es false), se delega la interacción al componente PlantInteraction de la planta.
+    /// </summary>
+    public void Interact()
+    {
+        if (canPlant)
+        {
+            TryPlant();
+        }
+        else
+        {
+            // Delegamos la interacción a la planta instanciada.
+            if (currentPlant != null)
             {
-                playerInventory = null;
-                HideWarning(); // Opcional: Oculta mensaje
+                PlantInteraction plantInteraction = currentPlant.GetComponent<PlantInteraction>();
+                if (plantInteraction != null)
+                {
+                    plantInteraction.Interact();
+                }
+                else
+                {
+                    Debug.LogWarning("La planta no tiene componente PlantInteraction.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No hay una planta asignada para interactuar.");
             }
         }
     }
 
-    // MÉTODOS DE LA INTERFAZ -------------------------------------------------
-    public void Interact()
-    {
-        // Aquí ocurre la magia al presionar el mismo botón de "Interacción" que usas para NPC
-        TryPlant();
-    }
-
     public void ShowWarning()
     {
-        // Aquí puedes activar un texto en pantalla "Pulsa E para plantar", etc.
-        Debug.Log("Mostrar UI de 'Pulsa F para plantar'");
+        // Aquí puedes activar la UI (por ejemplo, "Pulsa E para interactuar")
     }
 
     public void HideWarning()
     {
-        // Aquí desactivas el texto
-        Debug.Log("Ocultar UI de 'Pulsa F para plantar'");
+        // Aquí puedes desactivar la UI.
     }
-    // ------------------------------------------------------------------------
 
+    #endregion
+
+    #region Planting Logic
+
+    /// <summary>
+    /// Intenta obtener el ítem seleccionado del inventario y plantarlo en el barro.
+    /// </summary>
     private void TryPlant()
     {
-        // Verificamos que haya un inventario de jugador en rango
-        if (playerInventory == null)
-        {
-            Debug.LogWarning("No hay PlayerInventory en rango para plantar.");
-            return;
-        }
+        var inventory = PlayerInventory.Instance.GetInventory();
+        var selectedSlot = inventory.selectedSlot;
 
-        // Obtenemos el slot seleccionado del inventario
-        var selectedSlot = playerInventory.GetInventory().selectedSlot;
         if (selectedSlot == null || selectedSlot.item == null)
         {
             Debug.LogWarning("No hay un ítem seleccionado para plantar.");
@@ -87,71 +110,77 @@ public class MudInteraction : MonoBehaviour, IInteractable
         Item selectedItem = selectedSlot.item;
         int selectedQuantity = selectedSlot.quantity;
 
-        // Validaciones: ¿es una planta? ¿hay cantidad?
+        // Validar que el ítem seleccionado sea del tipo Plant y que haya cantidad disponible.
         if (selectedItem.itemType != ItemType.Plant || selectedQuantity <= 0)
         {
             Debug.Log("El ítem seleccionado no es una semilla o no hay suficiente cantidad.");
             return;
         }
 
-        // Intentamos plantar
-        bool wasPlanted = Plant(selectedItem);
-        if (wasPlanted)
+        // Si se planta correctamente, se remueve una unidad del inventario.
+        if (Plant(selectedItem))
         {
-            // Si la siembra tuvo éxito, quitamos 1 item del inventario
-            playerInventory.GetInventory().RemoveItem(selectedItem, 1);
+            inventory.RemoveItem(selectedItem, 1);
         }
     }
 
     /// <summary>
-    /// Instancia la planta en este barro.
+    /// Instancia la planta a partir del prefab del ítem y la asigna a este barro.
     /// </summary>
+    /// <param name="plantItem">El ítem de planta a sembrar.</param>
+    /// <returns>True si la plantación fue exitosa, false en caso contrario.</returns>
     public bool Plant(Item plantItem)
     {
-        // Primero, validamos si se puede plantar
         if (!canPlant)
         {
-            Debug.LogWarning("No se puede plantar en este momento, esta tierrita está ocupada.");
+            Debug.LogWarning("No se puede plantar en este momento; el terreno ya está ocupado.");
             return false;
         }
 
-        // Validamos el item y su prefab
         if (plantItem == null || plantItem.prefab == null)
         {
-            Debug.LogWarning("No se puede plantar: Item o prefab nulo.");
+            Debug.LogWarning("No se puede plantar: el ítem o su prefab son nulos.");
             return false;
         }
 
-        // Instanciamos la planta a partir del prefab
+        // Instanciar la planta en la posición actual del barro.
         GameObject newPlant = Instantiate(plantItem.prefab, transform.position, Quaternion.identity);
-
-        // Obtenemos el PlantGrowth de la instancia recién creada
         PlantGrowth plantGrowth = newPlant.GetComponent<PlantGrowth>();
         if (plantGrowth == null)
         {
-            Debug.LogWarning("No se encontró PlantGrowth en el prefab de la planta.");
-            // Opcional: destruir la instancia si el script no existe
+            Debug.LogWarning("El prefab de la planta no contiene el script PlantGrowth.");
             Destroy(newPlant);
             return false;
         }
 
-        // Asignamos el mud de origen en la instancia
+        // Asignar este barro como origen para que la planta pueda liberar el espacio al morir o cosecharse.
         plantGrowth.originMud = this;
 
-        // Marcamos que ya no se puede plantar hasta que se libere de nuevo
+        // Guardar la referencia a la planta instanciada para interactuar posteriormente.
+        currentPlant = plantGrowth;
+
+        // Marcar que ya no se puede plantar en este barro hasta que se libere nuevamente.
         SetCanPlant(false);
 
         Debug.Log($"Plantaste: {plantItem.itemName}");
-
-        // Disparamos el evento opcional si deseas realizar otras acciones
         OnPlant?.Invoke(plantItem);
 
-        // Si llegaste hasta aquí, la siembra fue exitosa
         return true;
     }
 
+    /// <summary>
+    /// Permite establecer si se puede o no plantar en este barro.
+    /// </summary>
+    /// <param name="value">True si se puede plantar; false si no.</param>
     public void SetCanPlant(bool value)
     {
         canPlant = value;
     }
+
+    #endregion
+
+    #region Watering Logic
+    // La lógica de riego se maneja ahora desde el componente PlantInteraction de la planta.
+    // Por ello, MudInteraction no requiere un método TryWaterPlant propio.
+    #endregion
 }

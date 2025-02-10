@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthPhases:
   - phaseName: First Phase
-    duration: 3
+    duration: 20
     onPhaseStart:
       m_PersistentCalls:
         m_Calls: []
@@ -256,7 +256,7 @@ MonoBehaviour:
     harvestItem: {fileID: 0}
     harvestQuantity: 1
   - phaseName: Second Phase
-    duration: 3
+    duration: 20
     onPhaseStart:
       m_PersistentCalls:
         m_Calls: []
@@ -267,6 +267,7 @@ MonoBehaviour:
     harvestItem: {fileID: 11400000, guid: d7fddc5d7801f3248b46fc81077f3685, type: 2}
     harvestQuantity: 1
   growthPerPhase: {x: 1, y: 1, z: 1}
+  originMud: {fileID: 0}
   currentPhaseIndex: 0
   onHarvested:
     m_PersistentCalls:
@@ -283,7 +284,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8986171c9397abb4284705e332b06052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventory: {fileID: 0}
 --- !u!65 &-5451366503029903433
 BoxCollider:
   m_ObjectHideFlags: 0
